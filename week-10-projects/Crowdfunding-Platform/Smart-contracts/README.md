@@ -1,13 +1,53 @@
-# Sample Hardhat Project
+# Crowdfunding Smart Contracts
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+This repo implements a decentralized crowdfunding platform with two Solidity contracts:
 
-Try running some of the following tasks:
+- **CFContract**: A factory for deploying and managing individual projects.
+- **Project**: Represents a single crowdfunding campaign.
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat ignition deploy ./ignition/modules/Lock.js
-```
+## CFContract
+
+Manages project creation and lookup.
+
+### Key Functions
+- `createProject(title, desc, target, currency)`: Deploys a new Project.
+- `getAllProjects()`: Returns all project addresses.
+- `getProjectsByCreator(addr)`: Lists projects by a user.
+- `getProjectDetails(addr)`: Fetches project metadata.
+- `logContribution(addr, amount)`: Records a contribution.
+- `getTransactionCount(addr)`: Returns transaction count.
+- `getTransaction(addr, index)`: Returns specific transaction details.
+
+### Events
+- `ProjectCreated(title, creator, address)`
+
+---
+
+## Project
+
+Holds campaign data and contribution logs.
+
+### Constructor
+Initializes with title, description, target, and currency.
+
+### Functions
+- `activate()` / `deactivate()`: Toggle project status (owner only).
+- `logPayment(amount)`: Adds a payment log.
+- `getTransactionCount()`, `getTransaction(index)`: Fetch contributions.
+- `getHighestContribution()`: Returns the largest contribution.
+- `getProjectDetails()`: Returns full metadata.
+
+### Event
+- `PaymentLogged(contributor, amount, timestamp)`
+
+---
+
+##  Stack
+
+- Solidity ^0.8.29  
+- Hardhat + Nomic Toolbox  
+- EVM-compatible (e.g. Ethereum, Metis Sepolia)
+
+## License
+
+MIT
