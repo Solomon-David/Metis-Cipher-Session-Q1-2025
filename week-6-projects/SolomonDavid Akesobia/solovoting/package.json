@@ -4,12 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
-    "ethers": "^6.13.5",
+    "dotenv": "^16.5.0",
+    "ethers": "^6.14.1",
+    "g": "^2.0.1",
     "vue": "^3.4.29",
     "vue-router": "^4.3.3"
   },

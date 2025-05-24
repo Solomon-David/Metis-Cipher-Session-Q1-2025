@@ -1,12 +1,10 @@
 <script setup>
 import { ref, onMounted, watch } from "vue";
 import { ethers } from "ethers";
-import ConnectWallet from "../components/ConnectWallet.vue"; // Import component
 
 const contractAddress = import.meta.env.VITE_CONTRACT;
 const abi = [ /* Your Contract ABI */ ];
 
-const walletRef = ref(null); // Reference for ConnectWallet component
 const provider = ref(null);
 const signer = ref(null);
 const contract = ref(null);
@@ -17,13 +15,13 @@ const party = ref("");
 const manifesto = ref("");
 const statusMessage = ref("");
 
+// You may want to set up provider and signer here directly, or via another method
+// Example placeholder for manual provider/signer setup
 const setupEthers = async () => {
-  if (!walletRef.value) return;
-
-  provider.value = walletRef.value.provider;
-  signer.value = walletRef.value.signer;
-
-  if (signer.value) {
+  // Example: window.ethereum injected by MetaMask
+  if (window.ethereum) {
+    provider.value = new ethers.BrowserProvider(window.ethereum);
+    signer.value = await provider.value.getSigner();
     contract.value = new ethers.Contract(contractAddress, abi, signer.value);
   }
 };
@@ -43,14 +41,11 @@ const addContestant = async () => {
   }
 };
 
-// Watch for wallet connection and update values
-watch(walletRef, setupEthers);
+onMounted(setupEthers);
 </script>
 
 <template>
   <div class="form-container">
-    <ConnectWallet ref="walletRef" /> <!-- Connect Wallet Button -->
-
     <h2>Add Contestant</h2>
     <input v-model="name" placeholder="Name" />
     <input v-model="age" type="number" placeholder="Age" />

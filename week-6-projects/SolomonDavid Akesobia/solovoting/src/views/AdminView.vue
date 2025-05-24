@@ -1,21 +1,26 @@
 <script setup>
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import AddContestantComponent from "../components/AddContestantComponent.vue";
 import RegisterVoterComponent from "../components/RegisterVoterComponent.vue";
 import ElectionControlComponent from "../components/ElectionControlComponent.vue";
-
+import ConnectWallet from "../components/ConnectWallet.vue";
 const activeSection = ref(null);
-
+const address = ref(null);
 // Toggle visibility of sections
 const toggleSection = (section) => {
   activeSection.value = activeSection.value === section ? null : section;
   
 };
+
 </script>
 
 <template>
   <main class="admin-container">
     <h1>Admin Dashboard</h1>
+
+    <div class="wallet-section">
+      <ConnectWallet @wallet-connected.once="(wallet) => address = wallet" />
+    </div>
 
     <div class="section">
       <button :class="{active : activeSection === 'contestants'}" @click="toggleSection('contestants')">➤ Add Contestants</button>
@@ -42,17 +47,16 @@ const toggleSection = (section) => {
 
 <style scoped>
 .admin-container {
-  width:50%;
+  width:100%;
   height:100%;
-  align-self: center;
-  justify-self: center;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .section {
-  width: 50vw;
-  margin-bottom: 15px;
-  position: relative;
+  width: 80vw;
 }
 
 button {
@@ -76,9 +80,8 @@ button.active{
   
 }
 
-.content {
-  display:content;
-  width: 99%;
+.content {  
+  width: 80%;
   border: 2px solid green;
   border-top: none;
   border-radius: 0 0 7.5px 7.5px;
